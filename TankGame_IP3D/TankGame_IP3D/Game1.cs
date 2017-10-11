@@ -12,6 +12,8 @@ namespace TankGame_IP3D
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        ClsBattlefield terreno;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -41,6 +43,7 @@ namespace TankGame_IP3D
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            terreno = new ClsBattlefield(GraphicsDevice, Content);
         }
 
         /// <summary>
@@ -76,7 +79,7 @@ namespace TankGame_IP3D
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            terreno.Draw(GraphicsDevice);
             base.Draw(gameTime);
         }
     }
