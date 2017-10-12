@@ -79,7 +79,7 @@ namespace TankGame_IP3D
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            terreno.Draw(GraphicsDevice);
+            terreno.Draw(GraphicsDevice, Content);
             base.Draw(gameTime);
         }
     }
