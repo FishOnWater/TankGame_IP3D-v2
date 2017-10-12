@@ -66,14 +66,14 @@ namespace TankGame_IP3D
             vertexBuffer.SetData<VertexPositionNormalTexture>(vertices);
 
             //Usaremos strips verticais
-            indices = new short[indexCount];
             indexCount = h * 2 * (w - 1);
+            indices = new short[indexCount];
             for(int ix=0; ix < w - 1; ix++)
             {
                 for(int iz=0; iz<h; iz++)
                 {
-                    indices[2 * iz + 0 + ix*2*h] = (short)(iz * w + ix);
-                    indices[2 * iz + 1 + ix*2*h] = (short)(iz * w + 1 + ix);
+                    indices[2 * iz + 0 + ix * 2 * h] = (short)(iz * w + ix);
+                    indices[2 * iz + 1 + ix * 2 * h] = (short)(iz * w + 1 + ix);
                 }
             }
 
