@@ -6,9 +6,11 @@ namespace TankGame_IP3D
 {
     public class Game1 : Game
     {
+        Matrix view;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        teste teste;
+        ClsBattlefield terreno;
+        //TesteTerreno terreno;
 
         public Game1()
         {
@@ -27,7 +29,8 @@ namespace TankGame_IP3D
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             //terreno = new ClsBattlefield(GraphicsDevice, Content);
-            teste = new teste(GraphicsDevice);
+            //terreno = new TesteTerreno(GraphicsDevice, Content);
+            terreno = new ClsBattlefield(GraphicsDevice, Content);
         }
 
         protected override void UnloadContent()
@@ -46,14 +49,9 @@ namespace TankGame_IP3D
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-<<<<<<< HEAD
 
             // TODO: Add your drawing code here
-            terreno.Draw(GraphicsDevice, Content);
-=======
-            teste.Draw(GraphicsDevice);
-            //terreno.Draw(GraphicsDevice);
->>>>>>> master
+            terreno.Draw(GraphicsDevice);
             base.Draw(gameTime);
         }
     }
