@@ -16,7 +16,7 @@ namespace TankGame_IP3D
         Vector3 direcao;
         Matrix cameraMatrix;
         BasicEffect effect;
-        float speed;
+        float speed = 0.1f;
         KeyboardState keyboardState = Keyboard.GetState();
 
         public Camera(GraphicsDevice device)
@@ -34,13 +34,14 @@ namespace TankGame_IP3D
         {
             direcao = posicao - camera;
             if (keyboardState.IsKeyDown(Keys.Up))
-                posicao = posicao + direcao;
+                posicao = (posicao + direcao) * speed;
             if (keyboardState.IsKeyDown(Keys.Down))
-                posicao = posicao - direcao;
+                posicao = (posicao - direcao) *speed;
             if (keyboardState.IsKeyDown(Keys.Right))
                 posicao = posicao + direcao;
             if (keyboardState.IsKeyDown(Keys.Left))
                 posicao = posicao + direcao;
+            direcao = new Vector3(0.0f, 0.0f, 0.0f);
         }
     }
 }
