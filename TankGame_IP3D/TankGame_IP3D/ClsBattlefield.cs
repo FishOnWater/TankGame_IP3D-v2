@@ -66,14 +66,14 @@ namespace TankGame_IP3D
             vertexBuffer.SetData<VertexPositionNormalTexture>(vertices);
 
             //Usaremos strips verticais
-            indices = new short[indexCount];
             indexCount = h * 2 * (w - 1);
+            indices = new short[indexCount];
             for(int ix=0; ix < w - 1; ix++)
             {
                 for(int iz=0; iz<h; iz++)
                 {
-                    indices[2 * iz + 0 + ix*2*h] = (short)(iz * w + ix);
-                    indices[2 * iz + 1 + ix*2*h] = (short)(iz * w + 1 + ix);
+                    indices[2 * iz + 0 + ix * 2 * h] = (short)(iz * w + ix);
+                    indices[2 * iz + 1 + ix * 2 * h] = (short)(iz * w + 1 + ix);
                 }
             }
 
@@ -81,13 +81,15 @@ namespace TankGame_IP3D
             indexBuffer.SetData<short>(indices);
         }
 
-        public void Draw(GraphicsDevice device)
+        public void Draw(GraphicsDevice device, ContentManager content)
         {
             effect.World = matrixTerreno;
             effect.CurrentTechnique.Passes[0].Apply();
             device.SetVertexBuffer(vertexBuffer);
             device.Indices = indexBuffer;
-            device.DrawIndexedPrimitives(PrimitiveType.TriangleStrip, 0, 0, vertexCount, 0, indexCount - 2);
+
+            for (int i = 0; i < alturas.Width - 1; i++)
+                device.DrawIndexedPrimitives(PrimitiveType.TriangleStrip, i, 0, vertexCount, i * alturas.Height, indexCount - 2); //tenta ver este ciclo
         }
     }
 }

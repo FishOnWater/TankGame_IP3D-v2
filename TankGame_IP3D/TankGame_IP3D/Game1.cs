@@ -46,8 +46,14 @@ namespace TankGame_IP3D
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+<<<<<<< HEAD
+
+            // TODO: Add your drawing code here
+            terreno.Draw(GraphicsDevice, Content);
+=======
             teste.Draw(GraphicsDevice);
             //terreno.Draw(GraphicsDevice);
+>>>>>>> master
             base.Draw(gameTime);
         }
     }
