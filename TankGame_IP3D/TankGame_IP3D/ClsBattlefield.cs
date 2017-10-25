@@ -25,6 +25,9 @@ namespace TankGame_IP3D
         Matrix matrixTerreno = Matrix.Identity;
         Texture2D alturas;
 
+        Vector3[] vectorNormal;
+        int vectorCount;
+
         Color c;
         float y;
         float escala = 0.05f;
@@ -68,10 +71,74 @@ namespace TankGame_IP3D
             vertexBuffer = new VertexBuffer(device, typeof(VertexPositionNormalTexture), vertices.Length, BufferUsage.None);
             vertexBuffer.SetData<VertexPositionNormalTexture>(vertices);
 
-            for( int x=0; x<alturas.Width; x++)
+            //Normais
+            vectorNormal = new Vector3[vectorCount];
+
+            for(int x=0; x<alturas.Width; x++)
             {
                 for(int z=0; z<alturas.Height+1; z++)
                 {
+                    if(x==0 && z == 0)
+                    {
+                        Vector3 v1 = vertices[(z + 1) * alturas.Width + x].Position - vertices[(z * alturas.Width + x)].Position;
+                        Vector3 v2 = vertices[(z + 1) * alturas.Width + (x + 1)].Position - vertices[z * alturas.Width + x].Position;
+                        Vector3 v3 = vertices[z * alturas.Width + (x + 1)].Position - vertices[z * alturas.Width + x].Position;
+
+                        Vector3 v4 = Vector3.Cross(v1, v2);
+                        Vector3 v5 = Vector3.Cross(v2, v3);
+
+                        Vector3.Normalize(v4);
+                        Vector3.Normalize(v5);
+
+                        vectorNormal[z * alturas.Width + x] = (v4 + v5) / 2;
+                    }
+
+                    if(x==alturas.Width-1 && z==0)
+                    {
+                        Vector3 v1 = vertices[z * alturas.Width + (x+1)].Position - vertices[(z * alturas.Width + x)].Position;
+                        Vector3 v2 = vertices[(z + 1) * alturas.Width + (x -1)].Position - vertices[z * alturas.Width + x].Position;
+                        Vector3 v3 = vertices[(z+1) * alturas.Width + x].Position - vertices[z * alturas.Width + x].Position;
+
+                        Vector3 v4 = Vector3.Cross(v1, v2);
+                        Vector3 v5 = Vector3.Cross(v2, v3);
+
+                        Vector3.Normalize(v4);
+                        Vector3.Normalize(v5);
+
+                        vectorNormal[z * alturas.Width + x] = (v4 + v5) / 2;
+                    }
+
+                    if(x==0 && z == alturas.Height - 1)
+                    {
+                        Vector3 v1 = vertices[z * alturas.Width + (x+1)].Position - vertices[(z * alturas.Width + x)].Position;
+                        Vector3 v2 = vertices[(z - 1) * alturas.Width + (x + 1)].Position - vertices[z * alturas.Width + x].Position;
+                        Vector3 v3 = vertices[z * alturas.Width + (x + 1)].Position - vertices[z * alturas.Width + x].Position;
+
+                        Vector3 v4 = Vector3.Cross(v1, v2);
+                        Vector3 v5 = Vector3.Cross(v2, v3);
+
+                        Vector3.Normalize(v4);
+                        Vector3.Normalize(v5);
+
+                        vectorNormal[z * alturas.Width + x] = (v4 + v5) / 2;
+
+                    }
+
+                    if(x==alturas.Width-1 && z == alturas.Height - 1)
+                    {
+                        Vector3 v1 = vertices[(z + 1) * alturas.Width + x].Position - vertices[(z * alturas.Width + x)].Position;
+                        Vector3 v2 = vertices[(z + 1) * alturas.Width + (x + 1)].Position - vertices[z * alturas.Width + x].Position;
+                        Vector3 v3 = vertices[z * alturas.Width + (x + 1)].Position - vertices[z * alturas.Width + x].Position;
+
+                        Vector3 v4 = Vector3.Cross(v1, v2);
+                        Vector3 v5 = Vector3.Cross(v2, v3);
+
+                        Vector3.Normalize(v4);
+                        Vector3.Normalize(v5);
+
+                        vectorNormal[z * alturas.Width + x] = (v4 + v5) / 2;
+
+                    }
 
                 }
             }
