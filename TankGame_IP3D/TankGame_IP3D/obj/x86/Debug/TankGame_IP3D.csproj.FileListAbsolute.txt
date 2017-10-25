@@ -49,4 +49,3 @@ C:\Users\barfi\Desktop\Escola\TankGame_IP3D-v2\TankGame_IP3D\TankGame_IP3D\obj\x
 C:\Users\barfi\Desktop\Escola\TankGame_IP3D-v2\TankGame_IP3D\TankGame_IP3D\obj\x86\Debug\TankGame_IP3D.csproj.CoreCompileInputs.cache
 C:\Users\barfi\Desktop\Escola\TankGame_IP3D-v2\TankGame_IP3D\TankGame_IP3D\obj\x86\Debug\TankGame_IP3D.exe
 C:\Users\barfi\Desktop\Escola\TankGame_IP3D-v2\TankGame_IP3D\TankGame_IP3D\obj\x86\Debug\TankGame_IP3D.pdb
-D:\Escola\Introdução Programação 3D\Repositórios\TankGame_IP3D\TankGame_IP3D\TankGame_IP3D\bin\Windows\x86\Debug\Content\buttraka.png

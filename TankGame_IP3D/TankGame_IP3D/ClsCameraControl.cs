@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Content;
 
 namespace TankGame_IP3D
 {
-    class ClsCameraControl 
+    class ClsCameraControl
     {
         Matrix cameraMatrix;
         BasicEffect effect;
@@ -20,6 +21,7 @@ namespace TankGame_IP3D
         Vector2 centro;
         float yaw;
         float pitch;
+        ContentManager content;
 
         public ClsCameraControl(GraphicsDevice device)
         {
@@ -42,12 +44,13 @@ namespace TankGame_IP3D
             Vector3 directionBase = Vector3.UnitX;
             float yaw = MathHelper.ToRadians(1.0f);
             Vector3 speed = new Vector3(0.1f, 0f, 0f);
+
             KeyboardState keyboardState = Keyboard.GetState();
 
             if (keyboardState.IsKeyDown(Keys.Left))
                 speed = Vector3.Transform(speed, Matrix.CreateRotationY(yaw));
             if (keyboardState.IsKeyDown(Keys.Right))
-                speed = Vector3.Transform( speed, - Matrix.CreateRotationY(yaw));
+                speed = Vector3.Transform(speed, -Matrix.CreateRotationY(yaw));
 
             Matrix rotation = Matrix.CreateRotationY(yaw);
             Vector3 dir = speed;
@@ -61,7 +64,7 @@ namespace TankGame_IP3D
             if (keyboardState.IsKeyDown(Keys.Up))
                 vectorCamera = vectorCamera + speed;
             if (keyboardState.IsKeyDown(Keys.Down))
-                vectorCamera = - vectorCamera + speed;
+                vectorCamera = -vectorCamera + speed;
 
             effect.View = Matrix.CreateLookAt(vectorCamera, Vector3.Zero, Vector3.Up);
             effect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45.0f), aspectRatio, 1.0f, 10.0f);

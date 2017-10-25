@@ -28,8 +28,6 @@ namespace TankGame_IP3D
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            //terreno = new ClsBattlefield(GraphicsDevice, Content);
-            //terreno = new TesteTerreno(GraphicsDevice, Content);
             terreno = new ClsBattlefield(GraphicsDevice, Content);
         }
 

@@ -36,12 +36,13 @@ namespace TankGame_IP3D
 
             effect = new BasicEffect(device);
             float aspectRatio = (float)device.Viewport.Width / device.Viewport.Height;
-            effect.View = Matrix.CreateLookAt(new Vector3(0.5f, 2.0f, 2.0f), Vector3.Zero, Vector3.Up);
-            effect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45.0f), aspectRatio, 1.0f, 10.0f);
+            effect.View = Matrix.CreateLookAt(new Vector3(64.0f, 20.0f, 64.0f), new Vector3(64.0f, 0.0f, 0.0f), Vector3.Up);
+            effect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45.0f), aspectRatio, 0.01f, 10000.0f);
             effect.TextureEnabled = true;
             effect.Texture = alturas;
-            effect.VertexColorEnabled = true;
-            effect.LightingEnabled = false;
+            effect.VertexColorEnabled = false;
+            effect.LightingEnabled = true;
+            effect.EnableDefaultLighting();
             CreateGeometry(device);
         }
 
@@ -67,6 +68,14 @@ namespace TankGame_IP3D
             vertexBuffer = new VertexBuffer(device, typeof(VertexPositionNormalTexture), vertices.Length, BufferUsage.None);
             vertexBuffer.SetData<VertexPositionNormalTexture>(vertices);
 
+            for( int x=0; x<alturas.Width; x++)
+            {
+                for(int z=0; z<alturas.Height+1; z++)
+                {
+
+                }
+            }
+
             //Usaremos strips verticais
             indexCount = alturas.Height * 2 * (alturas.Width - 1);
             indices = new short[indexCount];
@@ -82,6 +91,7 @@ namespace TankGame_IP3D
             indexBuffer = new IndexBuffer(device, typeof(short), indices.Length, BufferUsage.None);
             indexBuffer.SetData<short>(indices);
         }
+
         public void Draw(GraphicsDevice device)
         {
             effect.World = matrixTerreno;
