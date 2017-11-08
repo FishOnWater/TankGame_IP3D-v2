@@ -49,3 +49,10 @@ C:\Users\barfi\Desktop\Escola\TankGame_IP3D-v2\TankGame_IP3D\TankGame_IP3D\obj\x
 C:\Users\barfi\Desktop\Escola\TankGame_IP3D-v2\TankGame_IP3D\TankGame_IP3D\obj\x86\Debug\TankGame_IP3D.csproj.CoreCompileInputs.cache
 C:\Users\barfi\Desktop\Escola\TankGame_IP3D-v2\TankGame_IP3D\TankGame_IP3D\obj\x86\Debug\TankGame_IP3D.exe
 C:\Users\barfi\Desktop\Escola\TankGame_IP3D-v2\TankGame_IP3D\TankGame_IP3D\obj\x86\Debug\TankGame_IP3D.pdb
+D:\Escola\Introdução Programação 3D\Repositórios\TankGame_IP3D\TankGame_IP3D\TankGame_IP3D\bin\Windows\x86\Debug\Content\Cube.xnb
+D:\Escola\Introdução Programação 3D\Repositórios\TankGame_IP3D\TankGame_IP3D\TankGame_IP3D\bin\Windows\x86\Debug\Content\engine_diff_tex.xnb
+D:\Escola\Introdução Programação 3D\Repositórios\TankGame_IP3D\TankGame_IP3D\TankGame_IP3D\bin\Windows\x86\Debug\Content\engine_diff_tex_0.xnb
+D:\Escola\Introdução Programação 3D\Repositórios\TankGame_IP3D\TankGame_IP3D\TankGame_IP3D\bin\Windows\x86\Debug\Content\tank.xnb
+D:\Escola\Introdução Programação 3D\Repositórios\TankGame_IP3D\TankGame_IP3D\TankGame_IP3D\bin\Windows\x86\Debug\Content\turret_alt_diff_tex.xnb
+D:\Escola\Introdução Programação 3D\Repositórios\TankGame_IP3D\TankGame_IP3D\TankGame_IP3D\bin\Windows\x86\Debug\Content\turret_alt_diff_tex_0.xnb
+D:\Escola\Introdução Programação 3D\Repositórios\TankGame_IP3D\TankGame_IP3D\TankGame_IP3D\bin\Windows\x86\Debug\Content\textureTerreno.jpg
