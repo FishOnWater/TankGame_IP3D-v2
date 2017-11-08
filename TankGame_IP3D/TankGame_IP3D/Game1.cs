@@ -10,7 +10,7 @@ namespace TankGame_IP3D
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         ClsBattlefield terreno;
-        Tank tanque;
+        //Tank tanque;
         //TesteTerreno terreno;
 
         public Game1()
@@ -30,7 +30,7 @@ namespace TankGame_IP3D
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             terreno = new ClsBattlefield(GraphicsDevice, Content);
-            tanque = new Tank(GraphicsDevice, Content);
+            //tanque = new Tank(GraphicsDevice, Content);
         }
 
         protected override void UnloadContent()
@@ -52,7 +52,7 @@ namespace TankGame_IP3D
 
             // TODO: Add your drawing code here
             terreno.Draw(GraphicsDevice);
-            tanque.Draw();
+            //tanque.Draw();
             base.Draw(gameTime);
         }
     }

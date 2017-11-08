@@ -34,6 +34,8 @@ namespace TankGame_IP3D
         float escala = 0.05f;
         float[] alturasTextura;
 
+        Tank tanque;
+
         public ClsBattlefield(GraphicsDevice device, ContentManager content)
         {
             alturas = content.Load<Texture2D>("heightmap");
@@ -41,7 +43,7 @@ namespace TankGame_IP3D
 
             effect = new BasicEffect(device);
             float aspectRatio = (float)device.Viewport.Width / device.Viewport.Height;
-            effect.View = Matrix.CreateLookAt(new Vector3(40.0f, 5.0f, 64.0f), new Vector3(70.0f, 0.0f, 0.0f), Vector3.Up);
+            effect.View = Matrix.CreateLookAt(new Vector3(60.0f, 5.0f, 64.0f), new Vector3(64.0f, 0.0f, 0.0f), Vector3.Up);
             effect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45.0f), aspectRatio, 0.01f, 10000.0f);
             effect.TextureEnabled = true;
             effect.Texture = alturas;
@@ -49,12 +51,14 @@ namespace TankGame_IP3D
             effect.VertexColorEnabled = false;
 
             effect.LightingEnabled = true;
-            //effect.EnableDefaultLighting();
+
             effect.DirectionalLight0.DiffuseColor = Color.Brown.ToVector3();
-            effect.DirectionalLight0.Direction = new Vector3(1, -0.5f, 0);  
+            effect.DirectionalLight0.Direction = new Vector3(1.0f, -0.5f, 0);  
 
             effect.AmbientLightColor = new Vector3(0.5f, 0.5f, 0.5f);
             CreateGeometry(device);
+
+            tanque = new Tank(device, content);
         }
 
         public void CreateGeometry(GraphicsDevice device)
@@ -285,23 +289,43 @@ namespace TankGame_IP3D
                     Vector3.Normalize(v17);
                     vectorNormal[z * alturas.Width + x] = (v10 + v11 + v12 + v13 + v14 + v15 + v16 + v17) / 8;
                 }
-
-
-                //Usaremos strips verticais
-                indexCount = alturas.Height * 2 * (alturas.Width - 1);
-                indices = new short[indexCount];
-                for (int ix = 0; ix < alturas.Width - 1; ix++)
-                {
-                    for (int iz = 0; iz < alturas.Height; iz++)
-                    {
-                        indices[2 * iz + 0 + ix * 2 * alturas.Height] = (short)(iz * alturas.Width + ix);
-                        indices[2 * iz + 1 + ix * 2 * alturas.Height] = (short)(iz * alturas.Width + 1 + ix);
-                    }
-                }
-
-                indexBuffer = new IndexBuffer(device, typeof(short), indices.Length, BufferUsage.None);
-                indexBuffer.SetData<short>(indices);
             }
+
+            for (int x = 0; x < alturas.Width; x++)
+            {
+                for (int z = 0; z < alturas.Height; z++)
+                {
+                    Color c = texels[z * alturas.Width + x];
+                    float y = c.R * escala;
+                    v = new VertexPositionNormalTexture(new Vector3(x, y, z), vectorNormal[z*alturas.Width+x], new Vector2(x % 2, z % 2));
+                    vertices[z * alturas.Width + x] = v;
+                    alturasTextura[z * alturas.Width + x] = y;
+                }
+            }
+            vertexBuffer = new VertexBuffer(device, typeof(VertexPositionNormalTexture), vertices.Length, BufferUsage.None);
+            vertexBuffer.SetData<VertexPositionNormalTexture>(vertices);
+
+
+            //Usaremos strips verticais
+            indexCount = alturas.Height * 2 * (alturas.Width - 1);
+            indices = new short[indexCount];
+            for (int ix = 0; ix < alturas.Width - 1; ix++)
+            {
+                for (int iz = 0; iz < alturas.Height; iz++)
+                {
+                    indices[2 * iz + 0 + ix * 2 * alturas.Height] = (short)(iz * alturas.Width + ix);
+                    indices[2 * iz + 1 + ix * 2 * alturas.Height] = (short)(iz * alturas.Width + 1 + ix);
+                }
+            }
+
+            indexBuffer = new IndexBuffer(device, typeof(short), indices.Length, BufferUsage.None);
+            indexBuffer.SetData<short>(indices);
+        }
+
+        //Aqui fazer método para ajeitar o tanque e fazelo ligar-se às normais do mapa
+        public void TankControl()
+        {
+
         }
 
         public void Draw(GraphicsDevice device)
@@ -311,10 +335,12 @@ namespace TankGame_IP3D
             device.SetVertexBuffer(vertexBuffer);
             device.Indices = indexBuffer;
 
-            for (int ix = 0; ix < (alturas.Width-1); ix++)
+            for (int ix = 0; ix < (alturas.Width - 1); ix++)
             {
                 device.DrawIndexedPrimitives(PrimitiveType.TriangleStrip, 0, ix * alturas.Height * 2, 2 * alturas.Height - 2); //tenta ver este ciclo
             }
+
+            tanque.Draw();
         }
     }
 }
