@@ -34,8 +34,6 @@ namespace TankGame_IP3D
         float escala = 0.05f;
         float[] alturasTextura;
 
-        Tank tanque;
-
         public ClsBattlefield(GraphicsDevice device, ContentManager content)
         {
             alturas = content.Load<Texture2D>("heightmap");
@@ -57,8 +55,6 @@ namespace TankGame_IP3D
 
             effect.AmbientLightColor = new Vector3(0.5f, 0.5f, 0.5f);
             CreateGeometry(device);
-
-            tanque = new Tank(device, content);
         }
 
         public void CreateGeometry(GraphicsDevice device)
@@ -339,8 +335,6 @@ namespace TankGame_IP3D
             {
                 device.DrawIndexedPrimitives(PrimitiveType.TriangleStrip, 0, ix * alturas.Height * 2, 2 * alturas.Height - 2); //tenta ver este ciclo
             }
-
-            tanque.Draw();
         }
     }
 }

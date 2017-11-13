@@ -25,19 +25,31 @@ namespace TankGame_IP3D
         ModelBone rEngineBone;
         ModelBone rBackWheelBone;
         ModelBone rSteerBone;
-        ModelBone rFrontWheel;
+        ModelBone rFrontWheelBone;
         ModelBone lEngineBone;
-        ModelBone lBackWheel;
-        ModelBone lFrontWheel;
+        ModelBone lBackWheelBone;
+        ModelBone lFrontWheelBone;
         ModelBone lSteerBone;
         ModelBone hatchBone;
 
         Matrix turretTransform;
         Matrix canonTransform;
+        Matrix rEngineTransform;
+        Matrix rBackWheelTranform;
+        Matrix rSteerTransform;
+        Matrix rFrontWheelTransform;
+        Matrix lEngineTransform;
+        Matrix lBackWheelTransform;
+        Matrix lFrontWheelTransform;
+        Matrix lSteerTransform;
+        Matrix hatchTransform;
+
         float turretAngle = 0.0f;
         float canonAngle = 0.01f;
 
         Matrix[] boneTransforms;
+
+        ClsBattlefield terreno;
 
         public Tank(GraphicsDevice device, ContentManager content)
         {
@@ -50,25 +62,52 @@ namespace TankGame_IP3D
                                new Vector3(2.0f, 3.0f, 5.0f),
                               Vector3.Zero, Vector3.Up);
             projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45.0f), aspectRatio, 0.01f, 1000.0f);
-            scale = 0.0005f;
+            scale = 0.001f;
 
             turretBone = modelTank.Bones["turret_geo"];
             canonBone = modelTank.Bones["canon_geo"];
             rEngineBone = modelTank.Bones["r_engine_geo"];
             lEngineBone = modelTank.Bones["l_engine_geo"];
             rBackWheelBone = modelTank.Bones["r_back_wheel_geo"];
-            lBackWheel = modelTank.Bones["l_back_wheel_geo"];
+            lBackWheelBone = modelTank.Bones["l_back_wheel_geo"];
             rSteerBone = modelTank.Bones["r_steer_geo"];
             lSteerBone = modelTank.Bones["l_steer_geo"];
-            rFrontWheel = modelTank.Bones["r_front_wheel_geo"];
-            lFrontWheel = modelTank.Bones["l_front_wheel_geo"];
+            rFrontWheelBone = modelTank.Bones["r_front_wheel_geo"];
+            lFrontWheelBone = modelTank.Bones["l_front_wheel_geo"];
             hatchBone = modelTank.Bones["hatch_geo"]; 
 
             turretTransform = turretBone.Transform;
             canonTransform = canonBone.Transform;
+            rEngineTransform = rEngineBone.Transform;
+            lEngineTransform = lEngineBone.Transform;
+            rBackWheelTranform = rBackWheelBone.Transform;
+            lBackWheelTransform = rBackWheelBone.Transform;
+            rSteerTransform = rSteerBone.Transform;
+            lSteerTransform = lSteerBone.Transform;
+            rFrontWheelTransform = rFrontWheelBone.Transform;
+            lFrontWheelTransform = lFrontWheelBone.Transform;
+            hatchTransform = hatchBone.Transform;
 
 
             boneTransforms = new Matrix[modelTank.Bones.Count];
+
+            terreno = new ClsBattlefield(device, content);
+        }
+
+        public void GetTankNormal()
+        {
+        }
+
+        public void UpdateTankStuff(KeyboardState keyboard)
+        {
+            if (keyboard.IsKeyDown(Keys.Left))
+                turretAngle += MathHelper.ToRadians(1.0f);
+            if (keyboard.IsKeyDown(Keys.Right))
+                turretAngle -= MathHelper.ToRadians(1.0f);
+            if (keyboard.IsKeyDown(Keys.Up))
+                canonAngle += MathHelper.ToRadians(1.0f);
+            if (keyboard.IsKeyDown(Keys.Down))
+                canonAngle -= MathHelper.ToRadians(1.0f);
         }
 
         public void Draw()
