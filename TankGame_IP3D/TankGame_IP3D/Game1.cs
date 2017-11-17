@@ -6,12 +6,11 @@ namespace TankGame_IP3D
 {
     public class Game1 : Game
     {
-        Matrix view;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         ClsBattlefield terreno;
         Tank tanque;
-        //TesteTerreno terreno;
+        Camera camera;
 
         public Game1()
         {
@@ -30,6 +29,7 @@ namespace TankGame_IP3D
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             terreno = new ClsBattlefield(GraphicsDevice, Content);
+            camera = new Camera(GraphicsDevice);
             tanque = new Tank(GraphicsDevice, Content);
         }
 
@@ -42,7 +42,8 @@ namespace TankGame_IP3D
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            tanque.UpdateTankStuff(Keyboard.GetState());
+            tanque.UpdateTankPosition(terreno);
+            camera.UpdateCameraPosition(terreno);
             base.Update(gameTime);
         }
 
@@ -51,8 +52,8 @@ namespace TankGame_IP3D
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            terreno.Draw(GraphicsDevice);
-            tanque.Draw();
+            terreno.Draw(GraphicsDevice, camera.view);
+            tanque.Draw(terreno, camera.view);
             base.Draw(gameTime);
         }
     }

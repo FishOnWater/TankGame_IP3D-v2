@@ -12,8 +12,8 @@ namespace TankGame_IP3D
 {
     class ClsBattlefield
     {
-        VertexPositionNormalTexture[] vertices;
-        VertexPositionNormalTexture v;
+        public VertexPositionNormalTexture[] vertices;
+        public VertexPositionNormalTexture v;
         int vertexCount;
         VertexBuffer vertexBuffer;
 
@@ -23,16 +23,18 @@ namespace TankGame_IP3D
 
         BasicEffect effect;
         Matrix matrixTerreno = Matrix.Identity;
-        Texture2D alturas;
+        public Texture2D alturas;
         Texture2D terreno;
 
-        Vector3[] vectorNormal;
+        public Vector3[] vectorNormal;
         int vectorCount = 129540;
 
         Color c;
         float y;
         float escala = 0.05f;
-        float[] alturasTextura;
+        public float[] alturasTextura;
+
+        Tank tanque;
 
         public ClsBattlefield(GraphicsDevice device, ContentManager content)
         {
@@ -41,7 +43,7 @@ namespace TankGame_IP3D
 
             effect = new BasicEffect(device);
             float aspectRatio = (float)device.Viewport.Width / device.Viewport.Height;
-            effect.View = Matrix.CreateLookAt(new Vector3(60.0f, 5.0f, 64.0f), new Vector3(64.0f, 0.0f, 0.0f), Vector3.Up);
+            effect.View = Matrix.CreateLookAt(new Vector3(64.0f, 12.0f, 64.0f), new Vector3(64.0f, 0.0f, 0.0f), Vector3.Up);
             effect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45.0f), aspectRatio, 0.01f, 10000.0f);
             effect.TextureEnabled = true;
             effect.Texture = alturas;
@@ -286,6 +288,7 @@ namespace TankGame_IP3D
                     vectorNormal[z * alturas.Width + x] = (v10 + v11 + v12 + v13 + v14 + v15 + v16 + v17) / 8;
                 }
             }
+            
 
             for (int x = 0; x < alturas.Width; x++)
             {
@@ -318,18 +321,50 @@ namespace TankGame_IP3D
             indexBuffer.SetData<short>(indices);
         }
 
-        //Aqui fazer método para ajeitar o tanque e fazelo ligar-se às normais do mapa
-        public void TankControl()
+        public float Interpolacao(float X, float Z)
         {
+            if (X < 0 || X > alturas.Width || Z < 0 || Z > alturas.Height)
+            {
+                return y;
+            }
+            else
+            {
+                VertexPositionNormalTexture v1, v2, v3, v4;
 
+                v1 = vertices[(int)(Z + 0) * alturas.Width + (int)(X + 0)];
+                v2 = vertices[(int)(Z + 0) * alturas.Width + (int)(X + 1)];
+                v3 = vertices[(int)(Z + 1) * alturas.Width + (int)(X + 0)];
+                v4 = vertices[(int)(Z + 1) * alturas.Width + (int)(X + 1)];
+
+                float peso1, peso2;
+                float y1, y2, Y;
+
+                peso1 = X - v1.Position.X;
+                peso2 = 1 - peso1;
+
+                y1 = alturasTextura[(int)v1.Position.Z * alturas.Width + (int)v1.Position.X] * peso2 + alturasTextura[(int)v2.Position.Z * alturas.Width + (int)(v2.Position.X)] * peso1;
+
+                peso1 = X - v3.Position.X;
+                peso2 = 1 - peso1;
+
+                y2 = alturasTextura[(int)v3.Position.Z * alturas.Width + (int)v3.Position.X] * peso2 + alturasTextura[(int)v4.Position.Z * alturas.Width + (int)(v4.Position.X)] * peso1;
+
+                peso1 = Z - v1.Position.Z;
+                peso2 = 1 - peso1;
+
+                Y = y1 * peso2 + y2 * peso1;
+
+                return Y;
+            }
         }
 
-        public void Draw(GraphicsDevice device)
+        public void Draw(GraphicsDevice device, Matrix camView)
         {
             effect.World = matrixTerreno;
             effect.CurrentTechnique.Passes[0].Apply();
             device.SetVertexBuffer(vertexBuffer);
             device.Indices = indexBuffer;
+            effect.View = camView;
 
             for (int ix = 0; ix < (alturas.Width - 1); ix++)
             {

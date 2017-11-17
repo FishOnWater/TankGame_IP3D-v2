@@ -11,37 +11,59 @@ namespace TankGame_IP3D
 {
     class Camera
     {
-        Vector3 posicao = new Vector3(2.0f, 2.0f, 2.0f);
-        Vector3 camera = new Vector3(0.0f, 0.0f, 0.0f);
+        Vector3 posicao;
+        float alturaCam = 5.0f;
         Vector3 direcao;
-        Matrix cameraMatrix;
-        BasicEffect effect;
-        float speed = 0.1f;
+        Vector3 directionBase = Vector3.UnitX;
+        public Matrix view;
+        Vector3 speed = new Vector3(1.0f, 0.0f, 0.0f);
         KeyboardState keyboardState = Keyboard.GetState();
+        float yaw = 0.01f;
+        float pitch = 0.01f;
+        Matrix Projection;
 
         public Camera(GraphicsDevice device)
         {
-            UpdateCameraPosition(device);
-
-            effect = new BasicEffect(device);
-            cameraMatrix = Matrix.Identity;
+            posicao = new Vector3(64.0f, alturaCam, 64.0f);
             float aspectRatio = (float)device.Viewport.Width / device.Viewport.Height;
-            effect.View = Matrix.CreateLookAt(posicao, camera, Vector3.Up);
-            effect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45.0f), aspectRatio, 1.0f, 100.0f);
+            view = Matrix.CreateLookAt(posicao, direcao, Vector3.Up);
+            Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45.0f), aspectRatio, 1.0f, 100.0f);
         }
 
-        public void UpdateCameraPosition(GraphicsDevice device)
+        public void UpdateCameraPosition(ClsBattlefield terreno)
         {
-            direcao = posicao - camera;
-            if (keyboardState.IsKeyDown(Keys.Up))
-                posicao = (posicao + direcao) * speed;
-            if (keyboardState.IsKeyDown(Keys.Down))
-                posicao = (posicao - direcao) *speed;
-            if (keyboardState.IsKeyDown(Keys.Right))
-                posicao = posicao + direcao;
-            if (keyboardState.IsKeyDown(Keys.Left))
-                posicao = posicao + direcao;
-            direcao = new Vector3(0.0f, 0.0f, 0.0f);
+            MouseState mousestate = Mouse.GetState();
+
+            pitch = MathHelper.ToRadians(mousestate.Y * 0.1f);
+            Matrix pitchRotation = Matrix.CreateFromYawPitchRoll(yaw, pitch, 0.0f);
+
+            if (keyboardState.IsKeyDown(Keys.NumPad4))
+                speed = Vector3.Transform(speed, Matrix.CreateRotationY(yaw));
+            if (keyboardState.IsKeyDown(Keys.NumPad6))
+                speed = Vector3.Transform(speed, Matrix.CreateRotationY(-yaw));
+
+            Matrix yawRotation = Matrix.CreateRotationY(yaw);
+            Vector3 dir = speed;
+            dir.Normalize();
+            yawRotation.Forward = dir;
+            yawRotation.Up = Vector3.UnitY;
+            yawRotation.Right = Vector3.Cross(dir, Vector3.UnitY);
+            view = yawRotation * Matrix.CreateTranslation(posicao);
+            direcao = Vector3.Transform(directionBase, yawRotation);
+
+            if (keyboardState.IsKeyDown(Keys.NumPad8))
+            {
+                posicao = posicao + speed;
+                alturaCam = terreno.Interpolacao(posicao.X, posicao.Z);
+            }
+            if (keyboardState.IsKeyDown(Keys.NumPad2))
+            {
+                posicao = posicao - speed;
+                alturaCam = terreno.Interpolacao(posicao.X, posicao.Z);
+            }
+
+            view = Matrix.CreateLookAt(posicao, direcao, Vector3.Up) * pitchRotation;
         }
+
     }
 }
