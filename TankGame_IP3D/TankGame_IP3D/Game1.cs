@@ -43,7 +43,7 @@ namespace TankGame_IP3D
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             tanque.UpdateTankPosition(terreno);
-            camera.UpdateCameraPosition(terreno);
+            camera.UpdateCameraPosition(terreno, Keyboard.GetState());
             base.Update(gameTime);
         }
 
